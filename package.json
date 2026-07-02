@@ -1,0 +1,39 @@
+{
+  "name": "react-flask-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.1.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1"
+  },
+  "scripts": {
+    "dev": "cd src && npm run dev",
+    "start": "cd src && npm run dev",
+    "start-api": "cd api && ../venv/bin/flask run --no-debugger --with-threads --host 127.0.0.1 --port 5055",
+    "build": "cd src && npm run build",
+    "start-prod": "cd api && ../venv/bin/gunicorn -b :5055 --worker-class gthread --threads 4 api:app",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:5000"
+}

@@ -1,0 +1,23 @@
+# This Dockerfile builds the React client and API together
+
+# Build step #1: build the Vite/Lovable front end
+FROM node:20-alpine AS build-step
+WORKDIR /app/src
+COPY src/package.json src/package-lock.json ./
+RUN npm ci
+COPY src/ ./
+RUN npm run build
+
+# Build step #2: build the API with the client as static files
+FROM python:3.9
+WORKDIR /app
+COPY --from=build-step /app/build ./build
+
+RUN mkdir ./api
+COPY api/requirements.txt api/api.py api/.flaskenv ./api/
+RUN pip install -r ./api/requirements.txt
+ENV FLASK_ENV production
+
+EXPOSE 3000
+WORKDIR /app/api
+CMD ["gunicorn", "-b", ":3000", "--worker-class", "gthread", "--threads", "4", "api:app"]
